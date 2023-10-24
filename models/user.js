@@ -1,21 +1,45 @@
-import { Schema, model, models } from 'mongoose'
+// import { Schema, model, models } from 'mongoose'
 
-const UserSchema = new Schema({
-   email: {
-      type: String,
+// const UserSchema = new Schema({
+//    email: {
+//       type: String,
+//       unique: [true, 'Email already exists!'],
+//       required: [true, 'Email is required']
+//    },
+//    username: {
+//       type: String,
+//       required: [true,'Username is required!'],
+//       match: [/^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9а-я._]+(?<![_.])$/,"Username invalid, it should contain 8-20 alphanumeric letters and be unique!"]
+//    },
+//    image: {
+//       sype: String,
+//    }
+// })
+
+// const User = models.User || model('User', UserSchema)
+
+// export default User
+
+import { Entity, Schema, Repository } from 'redis-om'
+import { createClient } from 'redis'
+const redis = createClient()
+await redis.connect()
+
+const UserSchema = new Schema('User',{
+   email: { 
+      type: 'string',
       unique: [true, 'Email already exists!'],
       required: [true, 'Email is required']
    },
    username: {
-      type: String,
+      type: 'string',
       required: [true,'Username is required!'],
-      match: [/^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9а-я._]+(?<![_.])$/,"Username invalid, it should contain 8-20 alphanumeric letters and be unique!"]
+      validate: [/^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9а-я._]+(?<![_.])$/,"Username invalid, it should contain 8-20 alphanumeric letters and be unique!"]
    },
    image: {
-      sype: String,
-   }
-})
-
-const User = models.User || model('User', UserSchema)
+      type: 'string',
+   }})
+   
+const User = new Repository(UserSchema, redis)
 
 export default User

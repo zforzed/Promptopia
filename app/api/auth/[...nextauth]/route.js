@@ -12,7 +12,7 @@ const handler = NextAuth({
    ],
    callbacks: {
       async session({ session }) {
-         const sessionUser = await User.search().first({
+         const sessionUser = await User.findOne({
             email: session.user.email
          })
          session.user.id = sessionUser._id.toString()
@@ -21,20 +21,17 @@ const handler = NextAuth({
       async signIn({ profile }) {
          try {
             await connectToDB()
-            const allData = await User.search().returnAll({})
-            console.log('---all redis server Data---', allData)
+   
             //check if user exists
-            const userExists = await User.search().first({
+            const userExists = await User.findOne({
                email: profile.email
             })
-            console.log(userExists)
             //if not, create new user
             if(!userExists) {
-               console.log('new user')
-               await User.save({
+               await User.create({
                   email: profile.email,
                   username: profile.name.replace(" ","").toLowerCase(),
-                  image: profile.picture
+                  image: profile.picture,
                })
             }
    

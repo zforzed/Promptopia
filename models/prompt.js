@@ -1,39 +1,20 @@
-// import mongoose, { Schema, model, models } from 'mongoose'
-
-// const PromptSchema = new Schema({
-//   creator: {
-//     type: Schema.Types.ObjectId,
-//     ref: 'User'
-//   },
-//   prompt: {
-//     type: String,
-//     required: [true, 'Prompt is required.']
-//   },
-//   tag: {
-//     type: String,
-//     required: [true, 'Tag is required.']
-//   }
-// })
-
-// export const Prompt = models.Prompt || model('Prompt', PromptSchema)
-
-import { Schema } from 'redis-om'
+import { Schema, model, models } from 'mongoose'
 
 const PromptSchema = new Schema({
   creator: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
   },
   prompt: {
-    type: 'string',
+    type: String,
     required: [true, 'Prompt is required.']
   },
   tag: {
-    type: 'string',
+    type: String,
     required: [true, 'Tag is required.']
   }
 })
 
-export const Prompt = new PromptSchema()
+const Prompt = models.Prompt || model('Prompt', PromptSchema)
 
-
+export default Prompt

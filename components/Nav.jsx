@@ -35,7 +35,7 @@ const Nav = () => {
 
          {/* Desctop Navigation */}
 
-         <div className='sm:flex hidden'>
+         <div className='hidden sm:flex'>
             {session?.user ? (
                <div className='flex gap-3 md:gap-5'>
                   <Link href="/create-prompt" className='black_btn'>
@@ -75,7 +75,7 @@ const Nav = () => {
 
          {/* Mobile Navigation */}
 
-         <div className='sm:flex hidden relative'>
+         <div className='sm:hidden flex relative'>
             {session?.user ? (
                <div className='flex'>
                   <Image
